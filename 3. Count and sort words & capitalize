@@ -1,0 +1,61 @@
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+
+    private static int countWords(String sentence) {
+        int count=0;
+        if(sentence.charAt(0)!=' '){
+            count++;
+        }
+        for(int i = 0; i < sentence.length(); i++){
+            if((sentence.charAt(i) == ' ')){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static String[] separateWords(String sentence) {
+
+        if (sentence == null || sentence.equals(", "))
+            return new String[0];
+
+        String[] words = sentence.split("[ !\"\\#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~]+");
+
+        return words;
+    }
+
+    public static void main(String[] args) {
+        // Сканер на ввод предложения
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите предложение:");
+        String inputSentence = in.nextLine();
+
+        //Делаем все слова с маленькой буквы
+        String sentence = inputSentence.toLowerCase();
+
+        // Выводим преложение с капитализацией слов
+        String upperCaseSentence = "";
+        Scanner lineScan = new Scanner(sentence);
+        while(lineScan.hasNext()) {
+            String word = lineScan.next();
+            upperCaseSentence += Character.toUpperCase(word.charAt(0)) + word.substring(1) + " ";
+        }
+        System.out.println("Каждое слово предложения с заглавной буквы:");
+        System.out.println(upperCaseSentence.trim());
+
+        // Подключаем метод с подсчетом слов
+        int res = countWords(sentence);
+        System.out.println("Количество слов в предложении: " +res);
+
+        // Подключаем метод, который дробит ввод на массив слов
+        String[] words = separateWords(sentence);
+
+        // Выводим слова предложения, сортированные по алфавиту
+        Arrays.sort(words);
+        System.out.println("Слова, отсортированные по алфавиту:");
+        System.out.println(Arrays.toString(words));
+
+    }
+}
