@@ -1,0 +1,53 @@
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+
+    private static String[] textArray(String text) {
+
+        if (text == null || text.equals(", "))
+            return new String[0];
+
+        String[] array = text.split("[ !\"\\#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~…]+");
+
+        return array;
+    }
+
+    private static int wordOccurrence(String word, String[] array){
+        int count = 0;
+        for (String arrayWord : array) {
+            if (arrayWord.equals(word))
+                count++;
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+	    // Сканер на ввод текста
+        Scanner inText = new Scanner(System.in);
+        System.out.println("Введите текст и нажмите Enter: ");
+        String inputText = inText.nextLine();
+
+        // Убираем все заглавные буквы из текста
+        String text = inputText.toLowerCase();
+        System.out.println(text);
+
+        // Сканер на ввод слова
+        Scanner inWord = new Scanner(System.in);
+        System.out.println("Введите слово и нажмите Enter: ");
+        String inputWord = inWord.nextLine();
+
+        // Убираем все заглавные буквы из слова
+        String word = inputWord.toLowerCase();
+        System.out.println(word);
+
+        // Подключаем метод, который дробит текст на массив слов
+        String[] array = textArray(text);
+        System.out.println(Arrays.toString(array));
+
+        // Подключаем метод, который ищет соответствия
+        // И выводим результат
+        System.out.println("Найдено " + wordOccurrence(word, array) + " соответствий.");
+
+    }
+}
