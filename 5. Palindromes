@@ -1,0 +1,49 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+	    // Сканер на ввод числа
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите целое число от 0 до 100: ");
+        String inputNumber = in.nextLine();
+
+        // Переводим число в формат int
+        int maxNumber = Integer.parseInt (inputNumber);
+
+        if (maxNumber >= 11 && maxNumber <= 100) {
+
+            // Создаём массив для чисел-палиндромов, где
+            // размер массива зависит от величины введённого числа
+            int firstN = maxNumber/10;
+            int lastN = maxNumber%10;
+            int arrayCount = 0;
+            if (lastN >= firstN) {
+                arrayCount = firstN;
+            } else {
+                arrayCount = firstN - 1;
+            }
+            int[] arrayPalindrome = new int[arrayCount];
+
+            // Перебираем двузнаные числа от 11 до введённого числа
+            for (int i=11, x=0; i<=maxNumber; i++) {
+
+                // Если первая и вторая цифры числа совпадают, значит палиндром
+                int firstNumber = i/10;
+                int lastNumber = i%10;
+                if (firstNumber==lastNumber) {
+
+                    // Складываем значения в массив
+                    arrayPalindrome[x] = i;
+                    x++;
+                }
+            }
+            System.out.println("Список целых чисел-палиндромов от 0 до " + maxNumber + ": " + Arrays.toString(arrayPalindrome));
+        } else if (maxNumber >= 0 && maxNumber <=10) {
+            System.out.println("В диапазоне от 0 до " + maxNumber + " нет целых чисел-палиндромов.");
+        } else {
+            System.out.println("Неверный формат числа. Попробуйте снова.");
+        }
+    }
+}
