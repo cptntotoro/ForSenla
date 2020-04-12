@@ -23,7 +23,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-	    // Сканер на ввод текста
+	// Сканер на ввод текста
         Scanner inText = new Scanner(System.in);
         System.out.println("Введите текст и нажмите Enter: ");
         String inputText = inText.nextLine();
