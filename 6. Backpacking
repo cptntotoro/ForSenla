@@ -1,0 +1,66 @@
+// В этой программе я рассматриваю вариант, когда у нас есть
+// только 1 экземпляр каждой вещи. То есть, каждую вещь можно
+// положить в рюкзак только 1 раз
+
+import java.util.Scanner;
+
+public class Main {
+
+        public static void main(String[] args) {
+
+        // Запрашиваем данные у пользователя
+        Scanner input = new Scanner(System.in); 
+
+        // Количество вещей - это размер массива
+        System.out.println("Сколько вещей будем складывать в рюкзак? "); 
+        int totalObjects = input.nextInt();
+
+        // Заполняем массив со стоимостью вещей
+        int valueOfObject[] = new int[totalObjects]; 
+        System.out.println("Введите стоимость вещей по порядку, разделяя нажатием Enter: "); 
+        for (int i = 0; i < totalObjects; i++) {
+            valueOfObject[i] = input.nextInt();
+        }
+
+        // Заполняем массив с весом вещей
+        int weightOfObject[] = new int[totalObjects];
+        System.out.println("Введите вес вещей в том же порядке, разделяя нажатием Enter: ");
+        for (int i = 0; i < totalObjects; i++) {
+            weightOfObject[i] = input.nextInt(); 
+        }
+        
+        // Задаём вместимость рюкзака
+        System.out.println("Какова вместимость рюкзака? ");
+        int weightTotal = input.nextInt();
+
+        // Выводим ответ
+        System.out.println("Максимальная суммарная ценность груза при грузоподъёмности " + weightTotal + " равна " + backpack(weightTotal, weightOfObject, valueOfObject, totalObjects));
+    }
+
+    // Достаём максимальное значение из двух
+    // Используем для заполнения двухмерного массива (таблицы) ниже
+    static int max(int a, int b) { return (a > b)? a : b; }
+
+    // Считаем максимальный вес, который можно положить в рюкзак объёма weightTotal
+    static int backpack(int weightTotal, int weightOfObject[], int valueOfObject[], int totalObjects)
+    {
+        int i, w;
+        int table[][] = new int[totalObjects+1][weightTotal+1];
+
+        // Наполняем двухмерный массив (таблицу)
+        for (i = 0; i <= totalObjects; i++)
+        {
+            for (w = 0; w <= weightTotal; w++)
+            {
+                if (i==0 || w==0)  // Первый ряд и столбец таблицы имеют значение 0
+                    table[i][w] = 0;
+                else if (weightOfObject[i-1] <= w)
+                    table[i][w] = max(valueOfObject[i-1] + table[i-1][w-weightOfObject[i-1]],  table[i-1][w]);
+                else
+                    table[i][w] = table[i-1][w];
+            }
+        }
+
+        return table[totalObjects][weightTotal];
+    }
+}
