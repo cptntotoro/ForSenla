@@ -6,7 +6,34 @@ import java.util.Scanner;
 
 public class Main {
 
-        public static void main(String[] args) {
+    // Достаём максимальное значение из двух
+    // Используем для заполнения двухмерного массива (таблицы) ниже
+    static int max(int a, int b) { return (a > b)? a : b; }
+
+    // Считаем максимальный вес, который можно положить в рюкзак объёма weightTotal
+    static int backpack(int weightTotal, int weightOfObject[], int valueOfObject[], int totalObjects)
+    {
+        int i, w;
+        int table[][] = new int[totalObjects+1][weightTotal+1];
+
+        // Наполняем двухмерный массив (таблицу)
+        for (i = 0; i <= totalObjects; i++)
+        {
+            for (w = 0; w <= weightTotal; w++)
+            {
+                if (i==0 || w==0)  // Первый ряд и столбец таблицы имеют значение 0
+                    table[i][w] = 0;
+                else if (weightOfObject[i-1] <= w)
+                    table[i][w] = max(valueOfObject[i-1] + table[i-1][w-weightOfObject[i-1]],  table[i-1][w]);
+                else
+                    table[i][w] = table[i-1][w];
+            }
+        }
+
+        return table[totalObjects][weightTotal];
+    }
+
+    public static void main(String[] args) {
 
         // Запрашиваем данные у пользователя
         Scanner input = new Scanner(System.in); 
@@ -35,32 +62,5 @@ public class Main {
 
         // Выводим ответ
         System.out.println("Максимальная суммарная ценность груза при грузоподъёмности " + weightTotal + " равна " + backpack(weightTotal, weightOfObject, valueOfObject, totalObjects));
-    }
-
-    // Достаём максимальное значение из двух
-    // Используем для заполнения двухмерного массива (таблицы) ниже
-    static int max(int a, int b) { return (a > b)? a : b; }
-
-    // Считаем максимальный вес, который можно положить в рюкзак объёма weightTotal
-    static int backpack(int weightTotal, int weightOfObject[], int valueOfObject[], int totalObjects)
-    {
-        int i, w;
-        int table[][] = new int[totalObjects+1][weightTotal+1];
-
-        // Наполняем двухмерный массив (таблицу)
-        for (i = 0; i <= totalObjects; i++)
-        {
-            for (w = 0; w <= weightTotal; w++)
-            {
-                if (i==0 || w==0)  // Первый ряд и столбец таблицы имеют значение 0
-                    table[i][w] = 0;
-                else if (weightOfObject[i-1] <= w)
-                    table[i][w] = max(valueOfObject[i-1] + table[i-1][w-weightOfObject[i-1]],  table[i-1][w]);
-                else
-                    table[i][w] = table[i-1][w];
-            }
-        }
-
-        return table[totalObjects][weightTotal];
     }
 }
